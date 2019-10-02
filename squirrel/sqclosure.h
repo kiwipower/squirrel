@@ -10,7 +10,7 @@ struct SQClass;
 struct SQClosure : public CHAINABLE_OBJ
 {
 private:
-    SQClosure(SQSharedState *ss,SQFunctionProto *func){_function = func; __ObjAddRef(_function); _base = NULL; INIT_CHAIN();ADD_TO_CHAIN(&_ss(this)->_gc_chain,this); _env = NULL; _root=NULL;}
+    SQClosure(SQSharedState *ss,SQFunctionProto *func){_function = func; __ObjAddRef(_function); _base = NULL; INIT_CHAIN();ADD_TO_CHAIN(&_ss(this)->_gc_chain,this); _env = SQObjectPtr(); _root=NULL;}
 public:
     static SQClosure *Create(SQSharedState *ss,SQFunctionProto *func,SQWeakRef *root){
         SQInteger size = _CALC_CLOSURE_SIZE(func);
@@ -44,7 +44,6 @@ public:
         SQFunctionProto *f = _function;
         SQClosure * ret = SQClosure::Create(_opt_ss(this),f,_root);
         ret->_env = _env;
-        if(ret->_env) __ObjAddRef(ret->_env);
         _COPY_VECTOR(ret->_outervalues,_outervalues,f->_noutervalues);
         _COPY_VECTOR(ret->_defaultparams,_defaultparams,f->_ndefaultparams);
         return ret;
@@ -62,7 +61,7 @@ public:
     }
     SQObjectType GetType() {return OT_CLOSURE;}
 #endif
-    SQWeakRef *_env;
+	SQObjectPtr _env;
     SQWeakRef *_root;
     SQClass *_base;
     SQFunctionProto *_function;
@@ -147,7 +146,7 @@ public:
 struct SQNativeClosure : public CHAINABLE_OBJ
 {
 private:
-    SQNativeClosure(SQSharedState *ss,SQFUNCTION func){_function=func;INIT_CHAIN();ADD_TO_CHAIN(&_ss(this)->_gc_chain,this); _env = NULL;}
+    SQNativeClosure(SQSharedState *ss,SQFUNCTION func){_function=func;INIT_CHAIN();ADD_TO_CHAIN(&_ss(this)->_gc_chain,this); _env = SQObjectPtr();}
 public:
     static SQNativeClosure *Create(SQSharedState *ss,SQFUNCTION func,SQInteger nouters)
     {
@@ -163,7 +162,6 @@ public:
     {
         SQNativeClosure * ret = SQNativeClosure::Create(_opt_ss(this),_function,_noutervalues);
         ret->_env = _env;
-        if(ret->_env) __ObjAddRef(ret->_env);
         ret->_name = _name;
         _COPY_VECTOR(ret->_outervalues,_outervalues,_noutervalues);
         ret->_typecheck.copy(_typecheck);
@@ -172,7 +170,6 @@ public:
     }
     ~SQNativeClosure()
     {
-        __ObjRelease(_env);
         REMOVE_FROM_CHAIN(&_ss(this)->_gc_chain,this);
     }
     void Release(){
@@ -191,7 +188,7 @@ public:
     SQIntVec _typecheck;
     SQObjectPtr *_outervalues;
     SQUnsignedInteger _noutervalues;
-    SQWeakRef *_env;
+	SQObjectPtr _env;
     SQFUNCTION _function;
     SQObjectPtr _name;
 };

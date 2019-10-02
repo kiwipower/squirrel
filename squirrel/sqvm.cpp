@@ -419,8 +419,8 @@ bool SQVM::StartCall(SQClosure *closure,SQInteger target,SQInteger args,SQIntege
         }
     }
 
-    if(closure->_env) {
-        _stack._vals[stackbase] = closure->_env->_obj;
+    if(closure->_env._type != OT_NULL) {
+        _stack._vals[stackbase] = closure->_env;
     }
 
     if(!EnterFrame(stackbase, newtop, tailcall)) return false;
@@ -1188,8 +1188,8 @@ bool SQVM::CallNative(SQNativeClosure *nclosure, SQInteger nargs, SQInteger newb
     for (SQInteger i = 0; i < outers; i++) {
         _stack._vals[newbase+nargs+i] = nclosure->_outervalues[i];
     }
-    if(nclosure->_env) {
-        _stack._vals[newbase] = nclosure->_env->_obj;
+    if(nclosure->_env._type != OT_NULL) {
+        _stack._vals[newbase] = nclosure->_env;
     }
 
     _nnativecalls++;

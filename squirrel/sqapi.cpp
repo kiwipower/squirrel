@@ -459,13 +459,10 @@ SQRESULT sq_bindenv(HSQUIRRELVM v,SQInteger idx)
         !sq_isclass(env) &&
         !sq_isinstance(env))
         return sq_throwerror(v,_SC("invalid environment"));
-    SQWeakRef *w = _refcounted(env)->GetWeakRef(sq_type(env));
     SQObjectPtr ret;
     if(sq_isclosure(o)) {
         SQClosure *c = _closure(o)->Clone();
-        __ObjRelease(c->_env);
-        c->_env = w;
-        __ObjAddRef(c->_env);
+        c->_env = env;
         if(_closure(o)->_base) {
             c->_base = _closure(o)->_base;
             __ObjAddRef(c->_base);
@@ -474,9 +471,7 @@ SQRESULT sq_bindenv(HSQUIRRELVM v,SQInteger idx)
     }
     else { //then must be a native closure
         SQNativeClosure *c = _nativeclosure(o)->Clone();
-        __ObjRelease(c->_env);
-        c->_env = w;
-        __ObjAddRef(c->_env);
+        c->_env = env;
         ret = c;
     }
     v->Pop();

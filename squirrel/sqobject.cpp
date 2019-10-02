@@ -270,7 +270,6 @@ SQInteger SQFunctionProto::GetLine(SQInstruction *curr)
 SQClosure::~SQClosure()
 {
     __ObjRelease(_root);
-    __ObjRelease(_env);
     __ObjRelease(_base);
     REMOVE_FROM_CHAIN(&_ss(this)->_gc_chain,this);
 }
