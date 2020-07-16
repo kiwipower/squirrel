@@ -167,6 +167,13 @@ static SQInteger _blob__cloned(HSQUIRRELVM v)
     return 0;
 }
 
+static SQInteger _blob_tostring(HSQUIRRELVM v)
+{
+    SETUP_BLOB(v);
+    sq_pushstring(v, (const SQChar*)_SC(self->GetBuf()), self->Len());
+    return 1;
+}
+
 #define _DECL_BLOB_FUNC(name,nparams,typecheck) {_SC(#name),_blob_##name,nparams,typecheck}
 static const SQRegFunction _blob_methods[] = {
     _DECL_BLOB_FUNC(constructor,-1,_SC("xn")),
@@ -178,6 +185,7 @@ static const SQRegFunction _blob_methods[] = {
     _DECL_BLOB_FUNC(_typeof,1,_SC("x")),
     _DECL_BLOB_FUNC(_nexti,2,_SC("x")),
     _DECL_BLOB_FUNC(_cloned,2,_SC("xx")),
+    _DECL_BLOB_FUNC(tostring,1,_SC("x")),
     {NULL,(SQFUNCTION)0,0,NULL}
 };
 
@@ -205,8 +213,8 @@ static SQInteger _g_blob_swap2(HSQUIRRELVM v)
 {
     SQInteger i;
     sq_getinteger(v,2,&i);
-    short s=(short)i;
-    sq_pushinteger(v,(s<<8)|((s>>8)&0x00FF));
+    unsigned short s=(unsigned short)i;
+    sq_pushinteger(v,((s<<8)|((s>>8)&0x00FFu))&0xFFFFu);
     return 1;
 }
 
