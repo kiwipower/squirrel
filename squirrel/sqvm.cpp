@@ -358,6 +358,7 @@ bool SQVM::Init(SQVM *friendvm, SQInteger stacksize)
     _callsstack = &_callstackdata[0];
     _stackbase = 0;
     _top = 0;
+    _reductionCount = REDUCTION_COUNT;
     if(!friendvm) {
         _roottable = SQTable::Create(_ss(this), 0);
         sq_base_register(this);
@@ -710,11 +711,20 @@ bool SQVM::Execute(SQObjectPtr &closure, SQInteger nargs, SQInteger stackbase,SQ
             _suspended = SQFalse;
             if(et  == ET_RESUME_THROW_VM) { SQ_THROW(); }
             break;
+        case ET_REDUCTION_RESUME:
+            break;
     }
 
 exception_restore:
     //
     {
+        if (--(this->_reductionCount) <= 0)
+        {
+            this->_reductionCount = REDUCTION_COUNT;
+            this->_suspended = SQTrue;
+            return true;
+        }
+
         for(;;)
         {
             const SQInstruction &_i_ = *ci->_ip++;

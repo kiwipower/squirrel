@@ -6,6 +6,7 @@
 #include "sqobject.h"
 #define MAX_NATIVE_CALLS 100
 #define MIN_STACK_OVERHEAD 15
+#define REDUCTION_COUNT 1000
 
 #define SQ_SUSPEND_FLAG -666
 #define SQ_TAILCALL_FLAG -777
@@ -51,7 +52,7 @@ typedef sqvector<CallInfo> CallInfoVec;
 public:
     void DebugHookProxy(SQInteger type, const SQChar * sourcename, SQInteger line, const SQChar * funcname);
     static void _DebugHookProxy(HSQUIRRELVM v, SQInteger type, const SQChar * sourcename, SQInteger line, const SQChar * funcname);
-    enum ExecutionType { ET_CALL, ET_RESUME_GENERATOR, ET_RESUME_VM,ET_RESUME_THROW_VM };
+    enum ExecutionType { ET_CALL, ET_RESUME_GENERATOR, ET_RESUME_VM,ET_RESUME_THROW_VM, ET_REDUCTION_RESUME };
     SQVM(SQSharedState *ss);
     ~SQVM();
     bool Init(SQVM *friendvm, SQInteger stacksize);
@@ -151,6 +152,7 @@ public:
     SQObjectPtr _roottable;
     SQObjectPtr _lasterror;
     SQObjectPtr _errorhandler;
+    SQInt32 _reductionCount;
 
     bool _debughook;
     SQDEBUGHOOK _debughook_native;

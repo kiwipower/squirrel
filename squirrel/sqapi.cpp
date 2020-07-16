@@ -75,6 +75,13 @@ HSQUIRRELVM sq_newthread(HSQUIRRELVM friendvm, SQInteger initialstacksize)
     }
 }
 
+SQBool sq_resumethread(HSQUIRRELVM v)
+{
+    SQObjectPtr res;
+    v->_suspended = SQFalse;
+    return v->Execute(v->GetUp(0), 0, v->_top, res, SQFalse, SQVM::ET_REDUCTION_RESUME);
+}
+
 SQInteger sq_getvmstate(HSQUIRRELVM v)
 {
     if(v->_suspended)
