@@ -35,6 +35,9 @@
     <ClCompile Include="sqstdsystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sqstdrex2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sqstdblobimpl.h">

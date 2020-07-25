@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sqstdlib", "sqstdlib\sqstdl
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "squirrel", "squirrel\squirrel.vcxproj", "{624C77EA-CB70-4D79-8F3F-626B784142F0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "re2", "re2\out\build\x86-Release\re2.vcxproj", "{01471A9D-2802-3FE3-B660-5315437DCFC8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -34,6 +36,12 @@ Global
 		{624C77EA-CB70-4D79-8F3F-626B784142F0}.Release|x86.Build.0 = Release|Win32
 		{624C77EA-CB70-4D79-8F3F-626B784142F0}.Template|x86.ActiveCfg = Template|Win32
 		{624C77EA-CB70-4D79-8F3F-626B784142F0}.Template|x86.Build.0 = Template|Win32
+		{01471A9D-2802-3FE3-B660-5315437DCFC8}.Debug|x86.ActiveCfg = Release|Win32
+		{01471A9D-2802-3FE3-B660-5315437DCFC8}.Debug|x86.Build.0 = Release|Win32
+		{01471A9D-2802-3FE3-B660-5315437DCFC8}.Release|x86.ActiveCfg = Release|Win32
+		{01471A9D-2802-3FE3-B660-5315437DCFC8}.Release|x86.Build.0 = Release|Win32
+		{01471A9D-2802-3FE3-B660-5315437DCFC8}.Template|x86.ActiveCfg = Release|Win32
+		{01471A9D-2802-3FE3-B660-5315437DCFC8}.Template|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

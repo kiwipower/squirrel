@@ -10,6 +10,7 @@ endif ()
 
 include(GNUInstallDirs)
 
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}")
@@ -34,16 +35,17 @@ elseif(MSVC)
 endif()
 
 add_subdirectory(squirrel)
+add_subdirectory(re2)
 add_subdirectory(sqstdlib)
 add_subdirectory(sq)
 
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
   set(tgts)
   if(NOT DISABLE_DYNAMIC)
-    list(APPEND tgts squirrel sqstdlib sq)
+    list(APPEND tgts squirrel re2 sqstdlib sq)
   endif()
   if(NOT DISABLE_STATIC)
-    list(APPEND tgts squirrel_static sqstdlib_static sq_static)
+    list(APPEND tgts squirrel_static re2 sqstdlib_static sq_static)
   endif()
   foreach(t ${tgts})
     target_compile_definitions(${t} PUBLIC -D_SQ64)

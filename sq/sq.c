@@ -11,6 +11,7 @@
 #endif
 #include <squirrel.h>
 #include <sqstdblob.h>
+#include <sqstdrex2.h>
 #include <sqstdsystem.h>
 #include <sqstdio.h>
 #include <sqstdmath.h>
@@ -317,6 +318,7 @@ int main(int argc, char* argv[])
     sq_pushroottable(v);
 
     sqstd_register_bloblib(v);
+    sqstd_register_regexp2lib(v);
     sqstd_register_iolib(v);
     sqstd_register_systemlib(v);
     sqstd_register_mathlib(v);

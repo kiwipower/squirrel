@@ -1,0 +1,3 @@
+[submodule "re2"]
+	path = re2
+	url = https://github.com/kiwipower/re2.git

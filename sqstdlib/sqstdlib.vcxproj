@@ -59,6 +59,8 @@
     <OutDir>.\Release\</OutDir>
     <IntDir>.\Release\</IntDir>
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Users\alist\Documents\squirrel\re2;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\alist\Documents\squirrel\re2\out\build\x86-Release\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -118,6 +120,7 @@
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>..\lib\sqstdlib.lib</OutputFile>
+      <AdditionalDependencies>re2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -126,6 +129,7 @@
     <ClCompile Include="sqstdio.cpp" />
     <ClCompile Include="sqstdmath.cpp" />
     <ClCompile Include="sqstdrex.cpp" />
+    <ClCompile Include="sqstdrex2.cpp" />
     <ClCompile Include="sqstdstream.cpp" />
     <ClCompile Include="sqstdstring.cpp" />
     <ClCompile Include="sqstdsystem.cpp" />
