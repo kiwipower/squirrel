@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.4)
+cmake_minimum_required(VERSION 3.13)
 project(squirrel VERSION 3.1 LANGUAGES C CXX)
 
 option(DISABLE_STATIC "Avoid building/installing static libraries.")
@@ -34,18 +34,29 @@ elseif(MSVC)
   add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
 
-add_subdirectory(squirrel)
+# Import re2
+# When we build the statically linked version of squirrel, we need -fPIC and to link with pthread
+# To link with pthread without modifying the re2 repo, we set CMP0079 to new behaviour
+cmake_policy(SET CMP0079 NEW)
+
 add_subdirectory(re2)
+
+set_property(TARGET re2 PROPERTY POSITION_INDEPENDENT_CODE ON)
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+target_link_libraries(re2 Threads::Threads)
+
+add_subdirectory(squirrel)
 add_subdirectory(sqstdlib)
 add_subdirectory(sq)
 
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
   set(tgts)
   if(NOT DISABLE_DYNAMIC)
-    list(APPEND tgts squirrel re2 sqstdlib sq)
+    list(APPEND tgts squirrel sqstdlib sq re2)
   endif()
   if(NOT DISABLE_STATIC)
-    list(APPEND tgts squirrel_static re2 sqstdlib_static sq_static)
+    list(APPEND tgts squirrel_static sqstdlib_static sq_static re2)
   endif()
   foreach(t ${tgts})
     target_compile_definitions(${t} PUBLIC -D_SQ64)

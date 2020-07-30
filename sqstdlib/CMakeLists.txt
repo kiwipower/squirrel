@@ -1,3 +1,6 @@
+include(CMakeFindDependencyMacro)
+
+
 set(SQSTDLIB_SRC sqstdaux.cpp
                  sqstdblob.cpp
                  sqstdio.cpp
@@ -8,15 +11,15 @@ set(SQSTDLIB_SRC sqstdaux.cpp
                  sqstdstring.cpp
                  sqstdsystem.cpp)
 
+
 include_directories(../re2)
-link_directories(../build/lib)
 
 if(NOT DISABLE_DYNAMIC)
   add_library(sqstdlib SHARED ${SQSTDLIB_SRC})
   add_library(squirrel::sqstdlib ALIAS sqstdlib)
   set_property(TARGET sqstdlib PROPERTY EXPORT_NAME sqstdlib)
-  target_link_libraries(sqstdlib squirrel)
-  target_link_libraries(sqstdlib re2)
+  target_link_libraries(sqstdlib squirrel re2::re2)
+
   if(NOT SQ_DISABLE_INSTALLER)
     install(TARGETS sqstdlib EXPORT squirrel
       RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT Libraries
@@ -36,7 +39,7 @@ endif()
 if(NOT DISABLE_STATIC)
   add_library(sqstdlib_static STATIC ${SQSTDLIB_SRC})
   add_library(squirrel::sqstdlib_static ALIAS sqstdlib_static)
-  target_link_libraries(sqstdlib re2)
+  target_link_libraries(sqstdlib_static re2::re2)
   set_property(TARGET sqstdlib_static PROPERTY EXPORT_NAME sqstdlib_static)
   if(NOT SQ_DISABLE_INSTALLER)
     install(TARGETS sqstdlib_static EXPORT squirrel ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Development)
@@ -45,6 +48,11 @@ if(NOT DISABLE_STATIC)
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
     "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
     )
+endif()
+
+# Add the RE2 library to the same EXPORT named squirrel (this might not work in all situations, it's only been tested to the extent it works normally)
+if(NOT SQ_DISABLE_INSTALLER)
+  install(TARGETS re2 EXPORT squirrel ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Development)
 endif()
 
 if(LONG_OUTPUT_NAMES)

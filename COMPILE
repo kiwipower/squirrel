@@ -63,6 +63,10 @@ should work as well.
 
 GCC USERS
 .........................................................
+
+NOTE: This is currently broken due to the changes introducing regexp2 / the RE library. You can fix it if you have time :)
+Use CMake
+
 There is a very simple makefile that compiles all libraries and exes
 from the root of the project run 'make'
 

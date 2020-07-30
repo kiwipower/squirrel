@@ -1,8 +1,10 @@
 # Folders created at compilation
 lib/
+build/
 
 # Folders created at documentation generation
 doc/build/
 
 # VS Temporary Folders
 .vs/*
+
