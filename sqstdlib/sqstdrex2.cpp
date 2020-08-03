@@ -137,7 +137,7 @@ static SQInteger _regexp2_match(HSQUIRRELVM v)
     const SQChar* comparisonString;
     sq_getstring(v, 2, &comparisonString);
 
-    sq_pushbool(v, RE2::PartialMatch(re2::StringPiece(comparisonString), *self ));
+    sq_pushbool(v, RE2::FullMatch(re2::StringPiece(comparisonString), *self ));
 
     return 1;
 }
