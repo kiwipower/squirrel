@@ -102,8 +102,8 @@ static SQInteger _regexp2_capture(HSQUIRRELVM v)
     for (uint32_t i = 0; i < numberOfCapturingGroups; ++i) {
         sq_newtableex(v, 2);
 
-        SQInteger begin = (SQInteger)stringPieces[i].begin();
-        SQInteger end = (SQInteger)stringPieces[i].end();
+        SQInteger begin = (SQInteger)((const SQChar*)stringPieces[i].begin() - comparisonString);
+        SQInteger end = (SQInteger)((const SQChar*)stringPieces[i].end() - comparisonString);
 
         if (begin == end) {
             sq_pushstring(v, "begin", -1);
@@ -115,10 +115,10 @@ static SQInteger _regexp2_capture(HSQUIRRELVM v)
         }
         else {
             sq_pushstring(v, "begin", -1);
-            sq_pushinteger(v, begin - (SQInteger)comparisonString);
+            sq_pushinteger(v, begin);
             sq_createslot(v, -3);
             sq_pushstring(v, "end", -1);
-            sq_pushinteger(v, end - (SQInteger)comparisonString);
+            sq_pushinteger(v, end);
             sq_createslot(v, -3);
         }
 
@@ -182,22 +182,24 @@ static SQInteger _regexp2_search(HSQUIRRELVM v)
 
     for (uint32_t i = 0; i < numberOfCapturingGroups; ++i) {
 
-        SQInteger begin = (SQInteger)stringPieces[i].begin();
+        SQInteger begin = (SQInteger)((const SQChar*)stringPieces[i].begin() - comparisonString);
+
         if (begin > highestBegin) {
             highestBegin = begin;
             matchedArgument = i;
         }
     }
     
-    SQInteger begin = (SQInteger)stringPieces[matchedArgument].begin();
-    SQInteger end = (SQInteger)stringPieces[matchedArgument].end();
+
+    SQInteger begin = (SQInteger)((const SQChar*)stringPieces[matchedArgument].begin() - comparisonString);
+    SQInteger end = (SQInteger)((const SQChar*)stringPieces[matchedArgument].end() - comparisonString);
 
     sq_newtableex(v, 2);
     sq_pushstring(v, "begin", -1);
-    sq_pushinteger(v, begin - (SQInteger)comparisonString);
+    sq_pushinteger(v, begin);
     sq_createslot(v, -3);
     sq_pushstring(v, "end", -1);
-    sq_pushinteger(v, end - (SQInteger)comparisonString);
+    sq_pushinteger(v, end);
     sq_createslot(v, -3);
     
     return 1;

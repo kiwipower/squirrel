@@ -36,7 +36,8 @@ extern "C" {
 
 #if (defined(_WIN64) || defined(_LP64))
 #ifndef _SQ64
-#define _SQ64
+// Don't define _SQ64 automatically - leave it up to the build system
+//#define _SQ64 // We don't want a 64 bit integer
 #endif
 #endif
 

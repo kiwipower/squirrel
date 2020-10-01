@@ -1,5 +1,5 @@
 
-#ifdef _SQ64
+#if defined(_SQ64)
 
 #ifdef _MSC_VER
 typedef __int64 SQInteger;
@@ -17,8 +17,16 @@ typedef int SQInteger;
 typedef int SQInt32; /*must be 32 bits(also on 64bits processors)*/
 typedef unsigned int SQUnsignedInteger32; /*must be 32 bits(also on 64bits processors)*/
 typedef unsigned int SQUnsignedInteger;
+
+// If we're on a 64 bit platform with 32 bit ints, hash needs to be pointer sized
+#if defined(_SQ64_32BITINT)
+typedef unsigned long long SQHash; /*should be the same size of a pointer*/
+#else
 typedef unsigned int SQHash; /*should be the same size of a pointer*/
 #endif
+#endif
+
+
 
 
 #ifdef SQUSEDOUBLE

@@ -59,7 +59,7 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 8)
     list(APPEND tgts squirrel_static sqstdlib_static sq_static re2)
   endif()
   foreach(t ${tgts})
-    target_compile_definitions(${t} PUBLIC -D_SQ64)
+    target_compile_definitions(${t} PUBLIC -D_SQ64_32BITINT)
   endforeach()
 endif()
 

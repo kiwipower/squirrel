@@ -10,7 +10,7 @@
 #include "sqstring.h"
 
 
-#define hashptr(p)  ((SQHash)(((SQInteger)p) >> 3))
+#define hashptr(p)  ((SQHash)(((SQHash)p >> 3)))
 
 inline SQHash HashObj(const SQObjectPtr &key)
 {
