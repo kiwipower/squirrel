@@ -27,6 +27,7 @@ static SQInteger _blob_writestring(HSQUIRRELVM v)
 
     sq_getstringandsize(v, 2, &stringToWrite, &stringToWriteLength);
     self->Write((void*)stringToWrite, stringToWriteLength);
+    return 0;
 }
 
 static SQInteger _blob_resize(HSQUIRRELVM v)
