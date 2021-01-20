@@ -61,6 +61,11 @@ Under Windows, it is probably easiest to use the CMake GUI interface,
 although invoking CMake from the command line as explained above
 should work as well.
 
+Note:
+The Kiwi version of this always compiles squirrel as 32 bit (as that is what's used on EI). This means you may need some extra stuff:
+
+    sudo apt-get install gcc-multilib g++-multilib
+
 GCC USERS
 .........................................................
 
