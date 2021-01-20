@@ -19,6 +19,15 @@
     if(!self || !self->IsValid())  \
         return sq_throwerror(v,_SC("the blob is invalid"));
 
+static SQInteger _blob_writestring(HSQUIRRELVM v)
+{
+    SETUP_BLOB(v);
+    const SQChar* stringToWrite;
+    SQInteger stringToWriteLength;
+
+    sq_getstringandsize(v, 2, &stringToWrite, &stringToWriteLength);
+    self->Write((void*)stringToWrite, stringToWriteLength);
+}
 
 static SQInteger _blob_resize(HSQUIRRELVM v)
 {
@@ -177,6 +186,7 @@ static SQInteger _blob_tostring(HSQUIRRELVM v)
 #define _DECL_BLOB_FUNC(name,nparams,typecheck) {_SC(#name),_blob_##name,nparams,typecheck}
 static const SQRegFunction _blob_methods[] = {
     _DECL_BLOB_FUNC(constructor,-1,_SC("xn")),
+    _DECL_BLOB_FUNC(writestring,2,_SC("xs")),
     _DECL_BLOB_FUNC(resize,2,_SC("xn")),
     _DECL_BLOB_FUNC(swap2,1,_SC("x")),
     _DECL_BLOB_FUNC(swap4,1,_SC("x")),
